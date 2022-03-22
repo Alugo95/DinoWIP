@@ -14,8 +14,10 @@ async function goodboy(){
     const response = await fetch('dino.json');
     const data = await response.json();
     const dinoArray = await data.Dinos;
-    console.log(dinoArray);
-    // return dinoArray;
+    dietComper(createHuman(),dinoArray);
+    heightComper(createHuman(), dinoArray);
+    weightComper(createHuman(), dinoArray);
+    tiles(createHuman(), dinoArray);
 }
 
 // Create Human Object
@@ -35,7 +37,7 @@ function createHuman(){
 //compare the diets 
 function dietComper(object1, object2){
     for (let i = 0; i < object2.length; i++){
-        if(object1.diet.toLowercase()===object2[i].diet){
+        if(object1.diet.toLowerCase()===object2[i].diet){
             console.log(object2[i].species)
         }
     }
@@ -58,9 +60,34 @@ function weightComper(object1, object2){
     }
 }
 
- //creates new human object after clicking compare me!
- const Compbutton = document.getElementById("btn").addEventListener('click', goodboy); 
 
+function tiles(human,dino){
+    const theGrid = document.getElementById('grid')
+    let humantile = document.createElement('div')
+
+    humantile.classList.add('grid-item')
+    humantile.innerHTML = `<h3>${human.name}</h3>
+                          <img src ='images/human.png'></img>` 
+    theGrid.appendChild(humantile)
+    for(let i = 0; i < dino.length; i++){
+        let tiles = document.createElement('div')
+        tiles.classList.add('grid-item')
+        tiles.innerHTML = `<h3>${dino[i].species}</h3>
+                            <p>${dino[i].fact}</p>
+                            <img src = 'images/${dino[i].species}.png'>`
+        theGrid.appendChild(tiles)
+    }
+}
+
+function moveForm(){
+    const theForm = document.getElementById('dino-compare')
+    theForm.style.display ='none'
+}
+
+ //creates new human object after clicking compare me!
+const Compbutton = document.getElementById("btn");
+Compbutton.addEventListener('click', goodboy); 
+Compbutton.addEventListener('click', moveForm);
 
     // Create Dino Compare Method 1
     // NOTE: Weight in JSON file is in lbs, height in inches. 
