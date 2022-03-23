@@ -29,53 +29,84 @@ class theHuman{
         this.diet = document.querySelector('#diet').value
     }
 }
+
 function createHuman(){
     const newHuman = new theHuman();
     console.log(newHuman);
     return newHuman
 }
+
+
+//randomize facts
+function randomizer(object1, object2){
+    let num = Math.floor(Math.random()*3)
+    let facts ='';
+    if(num === 0){
+        facts = dietComper(object1, object2)
+    }if(num === 1){
+        facts = heightComper(object1, object2)
+    }if(num === 2){
+        facts = weightComper(object1, object2)
+    }
+    return facts
+}
+
+
 //compare the diets 
 function dietComper(object1, object2){
-    for (let i = 0; i < object2.length; i++){
-        if(object1.diet.toLowerCase()===object2[i].diet){
-            console.log(object2[i].species)
-        }
+    let fact='';
+    if(object2.species === 'Pigeon'){
+        fact ='All birds are Dinosaurs.'
+    }else if(object1.diet.toLowerCase()===object2.diet){
+        fact =`You and ${object2.species} eat the same food.`
+    }else if(object1.diet.toLowerCase()!=object2.diet){
+        fact =`You and ${object2.species} eat different foods.`
     }
+    return fact
 }
 
 //compare the heights 
 function heightComper(object1, object2){
-    for (let i = 0; i < object2.length; i++){
-        if(object1.height !== object2[i].height){
-            console.log(object2[i].species)
-        }
+    let fact='';
+    if(object2.species === 'Pigeon'){
+        fact ='All birds are Dinosaurs.'
+    }else if(object1.height < object2.height){
+        fact =`${object2.species} is ${object2.height - object1.height} inches taller than you!`
+    }else if(object1.height > object2.height){
+        fact =`${object2.species} is ${object1.height - object2.height} inches shorter than you!`
     }
+    return fact
 }
 //compare the weights 
 function weightComper(object1, object2){
-    for (let i = 0; i < object2.length; i++){
-        if(object1.weight !== object2[i].weight){
-            console.log(object2[i].species)
-        }
+    let fact='';
+    if(object2.species === 'Pigeon'){
+        fact ='All birds are Dinosaurs.'
+    }else if(object1.weight < object2.weight){
+        fact =`${object2.species} is ${object2.weight - object1.weight} lbs heavier than you!`
+    }else if(object1.weight > object2.weight){
+        fact =`${object2.species} is ${object1.weight - object2.weight} lbs lighter than you!`
     }
+    return fact
 }
-
 
 function tiles(human,dino){
     const theGrid = document.getElementById('grid')
     let humantile = document.createElement('div')
-
     humantile.classList.add('grid-item')
     humantile.innerHTML = `<h3>${human.name}</h3>
                           <img src ='images/human.png'></img>` 
-    theGrid.appendChild(humantile)
     for(let i = 0; i < dino.length; i++){
+        let randomfacts = randomizer(human, dino[i])
         let tiles = document.createElement('div')
         tiles.classList.add('grid-item')
         tiles.innerHTML = `<h3>${dino[i].species}</h3>
-                            <p>${dino[i].fact}</p>
+                            <p>${randomfacts}</p>
                             <img src = 'images/${dino[i].species}.png'>`
         theGrid.appendChild(tiles)
+        if(i===3){
+            theGrid.appendChild(humantile)
+        }
     }
 }
 
